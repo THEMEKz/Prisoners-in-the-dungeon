@@ -18,7 +18,7 @@ class Player extends Actor {
       };
       this.attack_time = 20;
       this.attack_timehit = 14;
-      this.maxhp = 20;
+      this.maxhp = 50;
       this.power_attack = 10;
       this.power_heal = 1;  
       this.info.hp = 20;    // พลังรักษา

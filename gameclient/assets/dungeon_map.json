@@ -98,7 +98,7 @@
                         {
                          "name":"maxhp",
                          "type":"int",
-                         "value":20
+                         "value":10
                         }, 
                         {
                          "name":"monster",
@@ -108,12 +108,12 @@
                         {
                          "name":"rebirth",
                          "type":"int",
-                         "value":20
+                         "value":10
                         }, 
                         {
                          "name":"score",
                          "type":"int",
-                         "value":10
+                         "value":1
                         }]
                 }, 
                 {
@@ -137,7 +137,7 @@
                         {
                          "name":"maxhp",
                          "type":"int",
-                         "value":50
+                         "value":20
                         }, 
                         {
                          "name":"monster",
@@ -147,12 +147,12 @@
                         {
                          "name":"rebirth",
                          "type":"int",
-                         "value":20
+                         "value":15
                         }, 
                         {
                          "name":"score",
                          "type":"int",
-                         "value":20
+                         "value":2
                         }]
                 }, 
                 {
@@ -176,7 +176,7 @@
                         {
                          "name":"maxhp",
                          "type":"int",
-                         "value":100
+                         "value":50
                         }, 
                         {
                          "name":"monster",
@@ -186,12 +186,12 @@
                         {
                          "name":"rebirth",
                          "type":"int",
-                         "value":20
+                         "value":30
                         }, 
                         {
                          "name":"score",
                          "type":"int",
-                         "value":30
+                         "value":3
                         }]
                 }, 
                 {
@@ -225,12 +225,12 @@
                         {
                          "name":"rebirth",
                          "type":"int",
-                         "value":20
+                         "value":40
                         }, 
                         {
                          "name":"score",
                          "type":"int",
-                         "value":40
+                         "value":5
                         }]
                 }, 
                 {
@@ -239,12 +239,12 @@
                         {
                          "name":"atk",
                          "type":"int",
-                         "value":10
+                         "value":2
                         }, 
                         {
                          "name":"def",
                          "type":"int",
-                         "value":15
+                         "value":7
                         }, 
                         {
                          "name":"heal",
@@ -264,12 +264,12 @@
                         {
                          "name":"rebirth",
                          "type":"int",
-                         "value":30
+                         "value":50
                         }, 
                         {
                          "name":"score",
                          "type":"int",
-                         "value":50
+                         "value":10
                         }]
                 }, 
                 {
@@ -307,7 +307,7 @@
                         {
                          "name":"score",
                          "type":"int",
-                         "value":5
+                         "value":2
                         }]
                 }, 
                 {

@@ -23,14 +23,21 @@ export default class GameScene extends Phaser.Scene {
 
         this.load.tilemapTiledJSON("map", "assets/dungeon_map.json");
         this.load.image("platform", "assets/dungeon_map.png");
+
+        this.load.audio("jump_sfx","assets/sfx/jump-15984.mp3")
+        this.load.audio("get_sfx","assets/sfx/getpoint.wav")
+        // this.load.audio("atk1_sfx","assets/sfx/atk_1.wav")
+        // this.load.audio("atk2_sfx","assets/sfx/atk_2.wav")
+        this.load.audio("music_sfx","assets/sfx/sfx_music.mp3")
+        this.load.audio("atk_sfx","assets/sfx/whoosh.mp3")
+
         const width  = this.scale.width;
         const height = this.scale.height; 
         this.center = {x: width/2, y: height/2};
     }
     create() {        
-        // const bShader = new Phaser.Display.BaseShader('star', filter_ball);
-        // const shader = this.add.shader(bShader, this.center.x, this.center.y, 16*60, 8*60);
-        // shader.setScrollFactor(0,0);
+        this.song = this.sound.add('music_sfx', {volume: 0.1});
+    	this.song.play();
 
         const width = this.scale.width;
         const height = this.scale.height;
@@ -51,11 +58,13 @@ export default class GameScene extends Phaser.Scene {
         //this.players_group = this.add.group();
         this.cursors = this.input.keyboard.createCursorKeys();
         //this.attackKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);  // 32
+
         this.attackKey = this.input.keyboard.addKey(32); 
 
         this.leftKeyPressed = false;
         this.rightKeyPressed = false;
         this.upKeyPressed = false;
+
         this.attackPressed = false;
 
         // var p = this.add.armature("player_zombie", "player");
@@ -102,6 +111,7 @@ export default class GameScene extends Phaser.Scene {
                 c.item = it.item;
                 c.setVisible(it.active);
                 this.items[id] = c;
+                // this.sound.play("jump_sfx")
             }
         });
 
@@ -111,6 +121,7 @@ export default class GameScene extends Phaser.Scene {
 
         this.socket.on('removeItem', (itemid) => {
             if (this.items[itemid])
+                this.sound.play("get_sfx");
                 this.items[itemid].setVisible(false);
         }
         );
@@ -199,17 +210,24 @@ export default class GameScene extends Phaser.Scene {
 
         if (this.cursors.left.isDown) {
             this.leftKeyPressed = true;
-        } else if (this.cursors.right.isDown) {
+        } 
+        else if (this.cursors.right.isDown) {
             this.rightKeyPressed = true;
-        } else {
+        }
+        else {
             this.leftKeyPressed = false;
             this.rightKeyPressed = false;
         }
 
         if (this.cursors.up.isDown) {
+            this.sound.play("jump_sfx");
             this.upKeyPressed = true;
         } else {
             this.upKeyPressed = false;
+        }
+
+        if(this.cursors.space.isDown){
+            this.sound.play("atk_sfx");
         }
 
         if (left !== this.leftKeyPressed || right !== this.rightKeyPressed || jump !== this.upKeyPressed ||
@@ -227,7 +245,6 @@ export default class GameScene extends Phaser.Scene {
     displayPlayers(playerInfo) {
         console.log(playerInfo);
         const player = this.add.armature("player_" + playerInfo.sprite, "player");
-        //  window.dg = player;
         player.animation.play("idle", -1);
         player.playerId = playerInfo.playerId;
         player.depth = 1;
@@ -237,147 +254,6 @@ export default class GameScene extends Phaser.Scene {
         player.add(player.label);
 
         this.players[player.playerId] = player;
-        //this.players_group.add(player);
         return player;
     }
 }
-
-var filter_ball = `
-precision highp float;
-
-uniform float time;
-uniform vec2 resolution;
-
-
-// More Mods By NRLABS 2016
-
-
-float speed = 0.0750;
-
-float ball(vec2 p, float fx, float fy, float ax, float ay)
-{
-	vec2 r = vec2(p.x + sin(time*speed / 0.90 * fx) * ax * 10.0, p.y + cos(time*speed/ 2.0 * fy) * ay * 10.0);	
-	return .027 / length(r / sin(fy * time * 0.01));
-}
-
-void main(void)
-{
-	vec2 p = ( gl_FragCoord.xy / resolution.xy ) * 2.0 - 1.0;
-	p.x *= resolution.x / resolution.y;
-	
-	float col = 0.0;
-		col += ball(p, 31.0, 22.0, 0.03, 0.09);
-		col += ball(p, 22.5, 22.5, 0.04, 0.04);
-		col += ball(p, 12.0, 23.0, 0.05, 0.03);
-		col += ball(p, 32.5, 33.5, 0.06, 0.04);
-		col += ball(p, 23.0, 24.0, 0.07, 0.03);	
-		col += ball(p, 21.5, 22.5, 0.08, 0.02);
-		col += ball(p, 33.1, 21.5, 0.09, 0.07);
-		col += ball(p, 23.5, 32.5, 0.09, 0.06);
-		col += ball(p, 14.1, 13.5, 0.09, 0.05);
-		col += ball(p, 22.0, 27.0, 0.03, 0.05);
-		col += ball(p, 12.5, 17.5, 0.04, 0.06);
-		col += ball(p, 23.0, 17.0, 0.05, 0.02);
-		col += ball(p, 19.5, 23.5, 0.06, 0.09);
-		col += ball(p, 33.0, 14.0, 0.07, 0.01);	
-		col += ball(p, 11.5, 12.5, 0.08, 0.04);
-		col += ball(p, 23.1, 11.5, 0.09, 0.07);
-		col += ball(p, 13.5, 22.5, 0.09, 0.03);
-		col += ball(p, 14.1, 23.5, 0.09, 0.08);
-		col *= 1.6;
-	gl_FragColor = vec4(col * 0.22, col * 0.34, col * 0.9 * sin(time), 1.0);
-}
-`;
-var filter_star = `
-#ifdef GL_ES
-precision mediump float;
-#endif
-
-// glslsandbox uniforms
-uniform float time;
-uniform vec2 resolution;
-
-#define num_layers 6.
-
-mat2 rot(float a) {
-
-    float s=sin(a) , c=cos(a);
-    
-    return mat2(c, -s, s, c);
-}    
-
-float star(vec2 uv, float flare) {
-
-float d = length (uv);
-	
-	float m = .05 / d;
-	
-	float rays = max (0. , 1. -abs (uv.x * uv.y * 1000.));
-	m +=rays * flare;
-	uv *=rot(3.1415/4.);
-    rays = max (0. , 1. -abs (uv.x * uv.y * 1000.));
-	m +=rays*.3 * flare;
-    m *= smoothstep(1.,.2,d);
-    return m;
-  
-}  
-
-float hash (vec2 p) {
-
-    p = fract(p*vec2(123.34,456.567));
-    p += dot(p, p+45.32);
-    return fract(p.x * p.y);
-}
-
-vec3 starlayer (vec2 uv)
-{
-vec3 col = vec3(0);
-
-    vec2 gv = fract(uv)-.5;
-    vec2 id = floor(uv);
-    for (int y=-1;y<=1;y++) {
-        for (int x=-1;x<=1;x++) {
-            vec2 offs = vec2(x,y);
-            float n = hash(id+offs); // random value
-            float size = fract(n*456.32);
-
-            float star1 = star (gv-offs-vec2(n,fract (n*34.))+.5, smoothstep(.85,1.,size));
-            
-            vec3 color = vec3(0.4+(sin(uv.y+uv.x*2.0+n*1121.43)*.5),0.5,1.);	//sin(vec3(.2,.5,.9)*fract(n*4232.4)*6.28)*.5+.5;
-            //color = color * vec3(1.,1,1.);
-            //star1 *= sin(time*2.+n*12.56)*.5+1.;
-		color.b *= 0.5+sin(n*17.7)*0.5;
-            col+= star1*size*color;
-            
-        }
-    }
-   return col;
-}
-
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-   
-   // vec2 uv = (GL_FragCoord -.5 * resolution.xy) / resolution.y;
-    vec2 uv = (fragCoord -.5 * resolution.xy) / resolution.y;	
-    //if (gv.x > .48 || gv.y > .48) col.r = 1.;
-    
-    vec3 col = vec3 (0.);
-    float t = time*.024+time/100.;
-	uv *= rot(t);
-
-    for (float i=0.;i < 1.;i += 1./num_layers)
-    {
-    float depth = fract(i+t);
-    float scale = mix (20., .5, depth);
-    float fade = depth*smoothstep (1.,.9,depth);;
-
-    col+= starlayer(uv*scale+i*347.9)*fade;
-    }
-    
-    fragColor = vec4(col,1.0);
-}
-
-void main(void)
-{
-    mainImage(gl_FragColor, gl_FragCoord.xy);
-}`;

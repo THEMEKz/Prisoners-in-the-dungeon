@@ -20,19 +20,27 @@
 
 <body style="font-family: 'Mali', cursive;color:rgb(0, 0, 0);background-color: rgb(255, 255, 255);">
   <div class="card-body">
-    <h5 class="card-title">ชื่อเกม: Prisoners in the dungeon</h3>
+    <div class="boxOntop"></div>
+    <h5 class="card-title">ชื่อเกม : PRISONERS IN THE DUNGEON</h3>
 
       <div class="card-text">
-        <div id='gamecanvas'></div>
+        <div id='gamecanvas' class="gameBox"></div>
       </div>
-      <br>
-      กติกาการเล่น : .......... <br>
-      <b>สมาชิกในกลุ่ม</b><br>
-      ID ............... Name ....................... Section ... <br>
-      ID ............... Name ....................... Section ... <br>
-      ID ............... Name ....................... Section ... <br>
-      ID ............... Name ....................... Section ... <br>
+      
+      <div class="memberName">
+        <h5>สมาชิกในกลุ่ม</h5>
+        <h5>
+          ID 623020498-7 Name สถาพร พรมมา Section 1 <br>
+          ID 623021025-5 Name นันทวัฒน์ อรรถประจง Section 1 <br>
+          ID 643020477-7 Name ธวัชชัย บุญราศรี Section 1 <br>
+          ID 643020037-5 Name จักรพันธ์ แสงพรม Section 1 <br>
+        </h5>
+      </div>
 
+      <!-- <div class="ruleBox">
+        <h5>กติกาการเล่น : .......... </h5>
+      </div> -->
+      <br>
   </div>  
   <script type="module" src='src/main.js'></script>
 
@@ -41,6 +49,46 @@
   a:link{
     color: #aaccff;
     text-decoration: none;
+  }
+
+  body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .memberName {
+    padding-top: 50px;
+    /* text-align: center; */
+    padding-bottom: 30px;
+    
+  }
+
+  .card-title{
+    text-align: center;
+    padding-bottom: 40px;
+    padding-top: 50px;
+    font-size: 30px;
+    margin-left: 150px;
+    margin-right: 150px;
+    /* top: 300px; */
+  }
+
+  /* .ruleBox{
+    text-align: center;
+  } */
+
+  .gameBox{
+    border: 1px solid #000000;
+    border-radius: 12px;
+    padding: 10px;
+    background-color: #000000;
+    box-shadow: 0px 0px 20px 9px rgba(0, 0, 0, 0.27);
+  }
+
+  .boxOntop{
+    padding-bottom: 30px;
   }
  </style>
 </body>
